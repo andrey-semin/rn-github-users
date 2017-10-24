@@ -2,8 +2,11 @@
   "presets": ["react-native"],
   "plugins": [
     ["module-resolver", {
-      "root": ["./src"],
-      "extensions": [".android.js", ".ios.js", ".js"]
-    }]
+      "root": ["./src/"],
+      "extensions": [".js"],
+      "alias": {
+        "screens": "./src/screens/"
+      }
+    }],
   ]
 }
