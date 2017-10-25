@@ -9,6 +9,9 @@
   "globals": {
     "__DEV__": true
   },
+  "env": {
+    "jest": true
+  },
   "settings": {
     "import/resolver": {
       "babel-module": {}

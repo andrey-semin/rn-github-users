@@ -44,6 +44,10 @@
     "prettier": "^1.7.4",
     "react-test-renderer": "^16.0.0"
   },
+  "jest": {
+   "preset": "react-native",
+   "verbose": true
+ },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
