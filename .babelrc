@@ -1,12 +1,10 @@
 {
   "presets": ["react-native"],
   "plugins": [
+    "transform-decorators-legacy",
     ["module-resolver", {
-      "root": ["./src/"],
-      "extensions": [".js"],
-      "alias": {
-        "screens": "./src/screens/"
-      }
-    }],
+      "root": ["./src"],
+      "extensions": [".android.js", ".ios.js", ".js"]
+    }]
   ]
 }
