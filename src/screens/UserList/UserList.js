@@ -1,21 +1,16 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Text, View, Button } from 'react-native'
 
-const UserList = ({ navigation }) => (
-  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-    <Text>Home Screen</Text>
-    <Button
-      onPress={() => navigation.navigate('Details')}
-      title="Go to details"
-    />
-  </View>
-)
+import { Spinner } from 'components'
 
-UserList.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired
-  }).isRequired
+export default class UserList extends PureComponent {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired
+    }).isRequired
+  }
+
+  render() {
+    return <Spinner />
+  }
 }
-
-export default UserList
