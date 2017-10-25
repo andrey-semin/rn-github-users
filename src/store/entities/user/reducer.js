@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions'
 
 import arrayToObjectByKey from 'store/utils/arrayToObjectByKey'
 import { fetchUsers, fetchUsersSuccess, fetchUsersFail } from './actions'
+import { ERROR_MESSAGE } from './constants'
 
 const initialState = {
   byId: {},
@@ -26,7 +27,7 @@ const handleFetchUsersSuccess = (state, { payload }) => ({
 const handleFetchUsersFail = state => ({
   ...state,
   isLoading: false,
-  error: 'Smth went wrong'
+  error: ERROR_MESSAGE
 })
 
 export default handleActions(
