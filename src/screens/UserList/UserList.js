@@ -7,7 +7,12 @@ export default class UserList extends PureComponent {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired
-    }).isRequired
+    }).isRequired,
+    fetchUsersList: PropTypes.func.isRequired
+  }
+
+  componentDidMount() {
+    this.props.fetchUsersList()
   }
 
   render() {
