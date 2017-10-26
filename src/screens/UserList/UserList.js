@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Text } from 'react-native'
 
-import { Spinner } from 'components'
+import { Spinner, List } from 'components'
+import { UserRow } from './components'
 
 export default class UserList extends PureComponent {
   static propTypes = {
@@ -18,6 +18,10 @@ export default class UserList extends PureComponent {
     this.props.fetchUsersList()
   }
 
+  renderUser = ({ item }) => (
+    <UserRow user={item} key={`user-${item.login}-${item.id}`} />
+  )
+
   render() {
     const { isLoading, users } = this.props
 
@@ -25,6 +29,6 @@ export default class UserList extends PureComponent {
       return <Spinner />
     }
 
-    return <Text>List of users - {users.length}</Text>
+    return <List data={users} renderItem={this.renderUser} />
   }
 }
