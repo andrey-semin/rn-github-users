@@ -12,8 +12,8 @@ export default StackNavigator({
   },
   Followers: {
     screen: UserFollowers,
-    navigationOptions: {
-      headerTitle: 'Followers'
-    }
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: `${navigation.state.params.user.login}'s followers`
+    })
   }
 })
