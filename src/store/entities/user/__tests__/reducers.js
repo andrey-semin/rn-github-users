@@ -1,10 +1,18 @@
 import reducer from '../reducer'
-import { fetchUsers, fetchUsersSuccess, fetchUsersFail } from '../actions'
+import {
+  fetchUsers,
+  fetchUsersSuccess,
+  fetchUsersFail,
+  fetchUserFollowers,
+  fetchUserFollowersFail
+} from '../actions'
 import {
   ERROR_MESSAGE,
   FETCH_USERS,
   FETCH_USERS_SUCCESS,
-  FETCH_USERS_FAIL
+  FETCH_USERS_FAIL,
+  FETCH_FOLLOWERS,
+  FETCH_FOLLOWERS_FAIL
 } from '../constants'
 
 describe('entities/user reducer', () => {
@@ -68,5 +76,33 @@ describe('entities/user reducer', () => {
     }
 
     expect(reducer(initialState, fetchUsersFail())).toEqual(stateAfter)
+  })
+
+  it(FETCH_FOLLOWERS, () => {
+    const initialState = {
+      isLoading: false,
+      error: ERROR_MESSAGE
+    }
+
+    const stateAfter = {
+      isLoading: true,
+      error: null
+    }
+
+    expect(reducer(initialState, fetchUserFollowers())).toEqual(stateAfter)
+  })
+
+  it(FETCH_FOLLOWERS_FAIL, () => {
+    const initialState = {
+      isLoading: true,
+      error: null
+    }
+
+    const stateAfter = {
+      isLoading: false,
+      error: ERROR_MESSAGE
+    }
+
+    expect(reducer(initialState, fetchUserFollowersFail())).toEqual(stateAfter)
   })
 })
