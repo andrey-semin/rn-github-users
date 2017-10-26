@@ -1,3 +1,4 @@
 export default {
-  gutter: 15
+  gutter: 15,
+  avatarSize: 100
 }

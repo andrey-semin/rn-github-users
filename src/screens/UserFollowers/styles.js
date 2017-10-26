@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-import { colors } from 'styles'
+import { colors, dimensions } from 'styles'
 
 export default StyleSheet.create({
   root: {
@@ -12,7 +12,7 @@ export default StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#03A9F4',
+    backgroundColor: colors.primary,
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center'
@@ -23,10 +23,10 @@ export default StyleSheet.create({
     display: 'flex'
   },
   avatar: {
-    width: 100,
-    height: 100,
+    width: dimensions.avatarSize,
+    height: dimensions.avatarSize,
     zIndex: 15,
-    borderRadius: 50
+    borderRadius: dimensions.avatarSize / 2
   },
   text: {
     color: colors.white

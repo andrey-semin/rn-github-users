@@ -11,9 +11,9 @@ export default StyleSheet.create({
     paddingHorizontal: dimensions.gutter
   },
   avatar: {
-    height: 100,
-    width: 100,
-    borderRadius: 50
+    height: dimensions.avatarSize,
+    width: dimensions.avatarSize,
+    borderRadius: dimensions.avatarSize / 2
   },
   userConatiner: {
     paddingLeft: dimensions.gutter
