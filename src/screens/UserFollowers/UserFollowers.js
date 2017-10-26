@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Text } from 'react-native'
 
-export default class UserDetails extends PureComponent {
+export default class UserFollowers extends PureComponent {
   static propTypes = {
     navigation: PropTypes.shape({
       state: PropTypes.shape({
@@ -18,7 +18,7 @@ export default class UserDetails extends PureComponent {
     const { navigation } = this.props
     const { state: { params } } = navigation
 
-    this.props.getUserFollowers(params.user.followers_url, params.user.id)
+    this.props.getUserFollowers(params.user.login, params.user.id)
   }
 
   render() {

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 import { getUserFollowers } from 'store/entities/user/actions'
-import UserDetails from './UserDetails'
+import UserFollowers from './UserFollowers'
 
 const mapStateToProps = null
 
@@ -9,4 +9,4 @@ const mapDispatchToProps = {
   getUserFollowers
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetails)
+export default connect(mapStateToProps, mapDispatchToProps)(UserFollowers)

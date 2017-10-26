@@ -1,7 +1,7 @@
 import { StackNavigator } from 'react-navigation'
 
 import UserList from 'screens/UserList'
-import UserDetails from 'screens/UserDetails'
+import UserFollowers from 'screens/UserFollowers'
 
 export default StackNavigator({
   Home: {
@@ -10,10 +10,10 @@ export default StackNavigator({
       headerTitle: 'Home'
     }
   },
-  Details: {
-    screen: UserDetails,
+  Followers: {
+    screen: UserFollowers,
     navigationOptions: {
-      headerTitle: 'Details'
+      headerTitle: 'Followers'
     }
   }
 })

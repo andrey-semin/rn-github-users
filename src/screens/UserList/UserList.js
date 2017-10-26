@@ -19,7 +19,7 @@ export default class UserList extends PureComponent {
   }
 
   createUserRowPressHandler = user => () =>
-    this.props.navigation.navigate('Details', { user })
+    this.props.navigation.navigate('Followers', { user })
 
   renderUser = ({ item }) => (
     <UserRow
