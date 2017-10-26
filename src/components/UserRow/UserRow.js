@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native'
 
 import styles from './styles'
 
-const UserRow = ({ user, onPress }) => (
+const UserRow = ({ user, onPress = Function.prototype }) => (
   <TouchableOpacity onPress={onPress}>
     <View style={styles.root}>
       <Image source={{ uri: user.avatar_url }} style={styles.avatar} />
@@ -21,7 +21,7 @@ UserRow.propTypes = {
     login: PropTypes.string.isRequired,
     html_url: PropTypes.string.isRequired
   }),
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func
 }
 
 export default UserRow

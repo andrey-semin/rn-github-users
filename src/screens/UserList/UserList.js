@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import { Spinner, List } from 'components'
-import { UserRow } from './components'
+import { Spinner, List, UserRow } from 'components'
 
 export default class UserList extends PureComponent {
   static propTypes = {
@@ -11,7 +10,14 @@ export default class UserList extends PureComponent {
     }).isRequired,
     fetchUsersList: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    users: PropTypes.array
+    users: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        avatar_url: PropTypes.string.isRequired,
+        login: PropTypes.string.isRequired,
+        html_url: PropTypes.string.isRequired
+      })
+    )
   }
 
   componentDidMount() {

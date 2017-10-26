@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
+
+import { List, UserRow } from 'components'
 
 export default class UserFollowers extends PureComponent {
   static propTypes = {
@@ -11,7 +13,15 @@ export default class UserFollowers extends PureComponent {
         }).isRequired
       }).isRequired
     }).isRequired,
-    getUserFollowers: PropTypes.func.isRequired
+    getUserFollowers: PropTypes.func.isRequired,
+    followers: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        avatar_url: PropTypes.string.isRequired,
+        login: PropTypes.string.isRequired,
+        html_url: PropTypes.string.isRequired
+      })
+    )
   }
 
   componentDidMount() {
@@ -21,10 +31,19 @@ export default class UserFollowers extends PureComponent {
     this.props.getUserFollowers(params.user.login, params.user.id)
   }
 
+  renderFollower = ({ item }) => (
+    <UserRow user={item} key={`user-${item.login}-${item.id}`} />
+  )
+
   render() {
-    const { navigation } = this.props
+    const { navigation, followers } = this.props
     const { state: { params } } = navigation
 
-    return <Text>{params.user.login}</Text>
+    return (
+      <View>
+        <Text>{params.user.login}</Text>
+        <List data={followers} renderItem={this.renderFollower} />
+      </View>
+    )
   }
 }
