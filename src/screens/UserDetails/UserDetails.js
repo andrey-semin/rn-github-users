@@ -10,13 +10,21 @@ export default class UserDetails extends PureComponent {
           login: PropTypes.string.isRequired
         }).isRequired
       }).isRequired
-    }).isRequired
+    }).isRequired,
+    getUserFollowers: PropTypes.func.isRequired
+  }
+
+  componentDidMount() {
+    const { navigation } = this.props
+    const { state: { params } } = navigation
+
+    this.props.getUserFollowers(params.user.followers_url, params.user.id)
   }
 
   render() {
     const { navigation } = this.props
     const { state: { params } } = navigation
 
-    return <Text>{params.login}</Text>
+    return <Text>{params.user.login}</Text>
   }
 }

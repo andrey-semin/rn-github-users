@@ -14,3 +14,17 @@ export const fetchUsersList = () => dispath =>
       }
     })
   )
+
+export const fetchUserFollowers = createAction('FETCH_FOLLOWERS')
+export const fetchUserFollowersSuccess = createAction('FETCH_FOLLOWERS_SUCCESS')
+export const fetchUserFollowersFail = createAction('FETCH_FOLLOWERS_FAIL')
+
+export const getUserFollowers = (followers_url, id) => dispath =>
+  dispath(
+    fetchUserFollowers({
+      request: {
+        url: followers_url
+      },
+      id
+    })
+  )

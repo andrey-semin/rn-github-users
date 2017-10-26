@@ -18,14 +18,14 @@ export default class UserList extends PureComponent {
     this.props.fetchUsersList()
   }
 
-  createUserRowPressHandler = login => () =>
-    this.props.navigation.navigate('Details', { login })
+  createUserRowPressHandler = user => () =>
+    this.props.navigation.navigate('Details', { user })
 
   renderUser = ({ item }) => (
     <UserRow
       user={item}
       key={`user-${item.login}-${item.id}`}
-      onPress={this.createUserRowPressHandler(item.login)}
+      onPress={this.createUserRowPressHandler(item)}
     />
   )
 
