@@ -6,7 +6,8 @@ import {
   fetchUsersSuccess,
   fetchUsersFail,
   fetchUserFollowers,
-  fetchUserFollowersSuccess
+  fetchUserFollowersSuccess,
+  fetchUserFollowersFail
 } from './actions'
 import { ERROR_MESSAGE } from './constants'
 
@@ -57,7 +58,8 @@ export default handleActions(
     [fetchUsersSuccess]: handleFetchUsersSuccess,
     [fetchUsersFail]: handleFetchUsersFail,
     [fetchUserFollowers]: handleFetchUsers,
-    [fetchUserFollowersSuccess]: handleFetchFollowerSuccess
+    [fetchUserFollowersSuccess]: handleFetchFollowerSuccess,
+    [fetchUserFollowersFail]: handleFetchUsersFail
   },
   initialState
 )

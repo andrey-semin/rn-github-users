@@ -1,6 +1,13 @@
 import { createAction } from 'redux-actions'
 
-import { FETCH_USERS, FETCH_USERS_SUCCESS, FETCH_USERS_FAIL } from './constants'
+import {
+  FETCH_USERS,
+  FETCH_USERS_SUCCESS,
+  FETCH_USERS_FAIL,
+  FETCH_FOLLOWERS,
+  FETCH_FOLLOWERS_SUCCESS,
+  FETCH_FOLLOWERS_FAIL
+} from './constants'
 
 export const fetchUsers = createAction(FETCH_USERS)
 export const fetchUsersSuccess = createAction(FETCH_USERS_SUCCESS)
@@ -15,9 +22,9 @@ export const fetchUsersList = () => dispath =>
     })
   )
 
-export const fetchUserFollowers = createAction('FETCH_FOLLOWERS')
-export const fetchUserFollowersSuccess = createAction('FETCH_FOLLOWERS_SUCCESS')
-export const fetchUserFollowersFail = createAction('FETCH_FOLLOWERS_FAIL')
+export const fetchUserFollowers = createAction(FETCH_FOLLOWERS)
+export const fetchUserFollowersSuccess = createAction(FETCH_FOLLOWERS_SUCCESS)
+export const fetchUserFollowersFail = createAction(FETCH_FOLLOWERS_FAIL)
 
 export const getUserFollowers = (login, id) => dispath =>
   dispath(
