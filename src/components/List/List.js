@@ -6,12 +6,13 @@ import ListSeparator from './ListSeparator'
 
 import styles from './styles'
 
-const List = ({ data, renderItem }) => (
+const List = ({ data, renderItem, ...rest }) => (
   <FlatList
     style={styles.root}
     data={data}
     renderItem={renderItem}
     ItemSeparatorComponent={ListSeparator}
+    {...rest}
   />
 )
 
