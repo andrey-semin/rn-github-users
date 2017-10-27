@@ -44,7 +44,8 @@ export const getUserFollowers = ({ login, id }, page = 1) => dispatch =>
       request: {
         url: `/users/${login}/followers`,
         params: {
-          page
+          page,
+          per_page: FOLLOWERS_PER_PAGE
         }
       },
       id
