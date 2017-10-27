@@ -2,6 +2,7 @@ import { StackNavigator } from 'react-navigation'
 
 import UserList from 'screens/UserList'
 import UserFollowers from 'screens/UserFollowers'
+import getNestedValueSafe from 'utils/getNestedValueSafe'
 
 export default StackNavigator({
   Home: {
@@ -12,8 +13,12 @@ export default StackNavigator({
   },
   Followers: {
     screen: UserFollowers,
-    navigationOptions: ({ navigation }) => ({
-      headerTitle: `${navigation.state.params.user.login}'s followers`
-    })
+    navigationOptions: ({ navigation }) => {
+      const login = getNestedValueSafe(navigation, 'state.params.user.login')
+      const headerTitle = login ? `${login}'s followers` : 'Followers'
+      return {
+        headerTitle
+      }
+    }
   }
 })

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-import getNestedValueSafe from 'store/utils/getNestedValueSafe'
+import getNestedValueSafe from 'utils/getNestedValueSafe'
 
 export const getIsLoading = state => state.user.isLoading
 export const getUsersById = state => state.user.byId
