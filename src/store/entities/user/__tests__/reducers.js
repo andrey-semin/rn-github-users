@@ -56,7 +56,8 @@ describe('entities/user reducer', () => {
         [id1]: user1,
         [id2]: user2
       },
-      ids: [id1, id2]
+      ids: [id1, id2],
+      lastFetchedId: id2
     }
 
     expect(reducer(initialState, fetchUsersSuccess({ data }))).toEqual(
