@@ -4,6 +4,7 @@ import getNestedValueSafe from 'utils/getNestedValueSafe'
 
 export const getIsLoading = state => state.user.isLoading
 export const getUsersById = state => state.user.byId
+export const getError = state => state.user.error
 export const getUserList = state =>
   Object.values(state.user.byId).sort((user1, user2) => user1.id - user2.id)
 export const getOpenedUserId = (state, props) =>

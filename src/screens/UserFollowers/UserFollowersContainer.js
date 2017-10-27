@@ -1,16 +1,23 @@
 import { connect } from 'react-redux'
 
-import { getUserFollowers } from 'store/entities/user/actions'
-import { getFollowersList, getOpenedUser } from 'store/entities/user/selectors'
+import { fetchUserFollowersPage } from 'store/entities/user/actions'
+import {
+  getFollowersList,
+  getOpenedUser,
+  getIsLoading,
+  getError
+} from 'store/entities/user/selectors'
 import UserFollowers from './UserFollowers'
 
 const mapStateToProps = (state, props) => ({
   followers: getFollowersList(state, props),
-  user: getOpenedUser(state, props)
+  user: getOpenedUser(state, props),
+  isLoading: getIsLoading(state),
+  error: getError(state)
 })
 
 const mapDispatchToProps = {
-  getUserFollowers
+  fetchUserFollowersPage
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserFollowers)

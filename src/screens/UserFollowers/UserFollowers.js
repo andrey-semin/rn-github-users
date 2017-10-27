@@ -1,15 +1,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Text, View, Animated, Image } from 'react-native'
+import { View, Animated } from 'react-native'
 
-import { List, UserRow } from 'components'
-import {
-  HEADER_MAX_HEIGHT,
-  HEADER_MIN_HEIGHT,
-  HEADER_SCROLL_DISTANCE,
-  MIN_LOGIN_FONT_SIZE,
-  MAX_LOGIN_FONT_SIZE
-} from './constants'
+import { List, UserRow, Spinner, Error } from 'components'
+import getNestedValueSafe from 'utils/getNestedValueSafe'
+import { AnimatedHeader } from './components'
+import { HEADER_MAX_HEIGHT } from './constants'
 import styles from './styles'
 
 export default class UserFollowers extends PureComponent {
@@ -21,7 +17,6 @@ export default class UserFollowers extends PureComponent {
         }).isRequired
       }).isRequired
     }).isRequired,
-    getUserFollowers: PropTypes.func.isRequired,
     followers: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
@@ -29,7 +24,10 @@ export default class UserFollowers extends PureComponent {
         login: PropTypes.string.isRequired,
         html_url: PropTypes.string.isRequired
       })
-    )
+    ),
+    isLoading: PropTypes.bool.isRequired,
+    fetchUserFollowersPage: PropTypes.func.isRequired,
+    error: PropTypes.string.isRequired
   }
 
   state = {
@@ -40,60 +38,37 @@ export default class UserFollowers extends PureComponent {
     const { navigation } = this.props
     const { state: { params } } = navigation
 
-    this.props.getUserFollowers(params.user.login, params.user.id)
+    this.props.fetchUserFollowersPage(params.user)
   }
 
   renderFollower = ({ item }) => (
     <UserRow user={item} key={`user-${item.login}-${item.id}`} />
   )
 
-  interpolateContainerHeight = () =>
-    this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp'
-    })
+  handleEndReached = () => {
+    this.props.fetchUserFollowersPage(
+      getNestedValueSafe(this.props, 'navigation.state.params.user')
+    )
+  }
 
-  interpolateInfoOpacity = () =>
-    this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
-      outputRange: [1, 1, 0],
-      extrapolate: 'clamp'
-    })
-
-  interpolateInfoTranslate = () =>
-    this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [0, -HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp'
-    })
-
-  interpolateLoginTextTop = () =>
-    this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [
-        HEADER_MAX_HEIGHT - 40,
-        (HEADER_MIN_HEIGHT - MIN_LOGIN_FONT_SIZE) / 2
-      ],
-      extrapolate: 'clamp'
-    })
-
-  interpolateLoginTextFontSize = () =>
-    this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [MAX_LOGIN_FONT_SIZE, MIN_LOGIN_FONT_SIZE],
-      extrapolate: 'clamp'
-    })
+  renderFooter = () => (
+    <View style={styles.footerContainer}>
+      <Spinner />
+    </View>
+  )
 
   render() {
-    const { navigation, followers } = this.props
-    const { state: { params } } = navigation
+    const { navigation, followers, isLoading, error } = this.props
 
-    const containerHeight = this.interpolateContainerHeight()
-    const infoOpaticy = this.interpolateInfoOpacity()
-    const infoTranslate = this.interpolateInfoTranslate()
-    const loginTextTop = this.interpolateLoginTextTop()
-    const loginFontSize = this.interpolateLoginTextFontSize()
+    if (isLoading && !followers.length && !error) {
+      return <Spinner />
+    }
+
+    if (error) {
+      return <Error label={error} />
+    }
+
+    const user = getNestedValueSafe(navigation, 'state.params.user')
 
     return (
       <View style={styles.root}>
@@ -104,44 +79,14 @@ export default class UserFollowers extends PureComponent {
           onScroll={Animated.event([
             { nativeEvent: { contentOffset: { y: this.state.scrollY } } }
           ])}
-          contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
+          contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT }}
+          ListFooterComponent={
+            this.props.isLoading && followers.length && this.renderFooter
+          }
+          onEndReached={this.handleEndReached}
+          onEndReachedThreshold={0.2}
         />
-        <Animated.View
-          style={[
-            styles.animatedContainer,
-            {
-              height: containerHeight
-            }
-          ]}
-        >
-          <Animated.View
-            style={[
-              styles.infoContainer,
-              {
-                opacity: infoOpaticy,
-                transform: [{ translateY: infoTranslate }]
-              }
-            ]}
-          >
-            <Image
-              source={{ uri: params.user.avatar_url }}
-              style={styles.avatar}
-            />
-            <Text style={styles.text}>{params.user.html_url}</Text>
-          </Animated.View>
-          <Animated.Text
-            style={[
-              styles.text,
-              styles.loginText,
-              {
-                top: loginTextTop,
-                fontSize: loginFontSize
-              }
-            ]}
-          >
-            {params.user.login}
-          </Animated.Text>
-        </Animated.View>
+        <AnimatedHeader animatedValue={this.state.scrollY} user={user} />
       </View>
     )
   }

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { View } from 'react-native'
 
-import { Spinner, List, UserRow } from 'components'
+import { Spinner, List, UserRow, Error } from 'components'
 import styles from './styles'
 
 export default class UserList extends PureComponent {
@@ -19,7 +19,8 @@ export default class UserList extends PureComponent {
         html_url: PropTypes.string.isRequired
       })
     ),
-    fetchUsersPage: PropTypes.func.isRequired
+    fetchUsersPage: PropTypes.func.isRequired,
+    error: PropTypes.string.isRequired
   }
 
   componentDidMount() {
@@ -46,10 +47,14 @@ export default class UserList extends PureComponent {
   handleEndReached = () => this.props.fetchUsersPage()
 
   render() {
-    const { isLoading, users } = this.props
+    const { isLoading, users, error } = this.props
 
-    if (isLoading && !users.length) {
+    if (isLoading && !users.length && !error) {
       return <Spinner />
+    }
+
+    if (error) {
+      return <Error label={error} />
     }
 
     return (

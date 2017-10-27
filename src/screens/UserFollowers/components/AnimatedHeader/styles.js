@@ -3,10 +3,6 @@ import { StyleSheet } from 'react-native'
 import { colors, dimensions } from 'styles'
 
 export default StyleSheet.create({
-  root: {
-    backgroundColor: colors.white,
-    flex: 1
-  },
   animatedContainer: {
     position: 'absolute',
     top: 0,
@@ -34,8 +30,5 @@ export default StyleSheet.create({
   loginText: {
     position: 'absolute',
     backgroundColor: 'transparent'
-  },
-  footerContainer: {
-    marginBottom: dimensions.gutter
   }
 })

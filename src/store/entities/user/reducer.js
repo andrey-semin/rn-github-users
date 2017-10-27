@@ -1,6 +1,7 @@
 import { handleActions } from 'redux-actions'
 
 import arrayToObjectByKey from 'store/utils/arrayToObjectByKey'
+import dedupeArray from 'store/utils/dedupeArray'
 import {
   fetchUsers,
   fetchUsersSuccess,
@@ -26,7 +27,7 @@ const handleFetchUsers = state => ({
 })
 
 const handleFetchUsersSuccess = (state, { payload }) => {
-  const ids = [...state.ids, ...payload.data.map(user => user.id)]
+  const ids = dedupeArray([...state.ids, ...payload.data.map(user => user.id)])
   return {
     ...state,
     byId: Object.assign({}, state.byId, arrayToObjectByKey(payload.data, 'id')),
@@ -45,17 +46,28 @@ const handleFetchUsersFail = state => ({
 const handleFetchFollowerSuccess = (
   state,
   { payload, meta: { previousAction } }
-) => ({
-  ...state,
-  byId: Object.assign({}, state.byId, arrayToObjectByKey(payload.data, 'id'), {
-    [previousAction.payload.id]: {
-      ...state.byId[previousAction.payload.id],
-      followers: payload.data.map(user => user.id)
-    }
-  }),
-  ids: [...state.ids, ...payload.data.map(user => user.id)],
-  isLoading: false
-})
+) => {
+  const user = state.byId[previousAction.payload.id]
+  return {
+    ...state,
+    byId: Object.assign(
+      {},
+      state.byId,
+      arrayToObjectByKey(payload.data, 'id'),
+      {
+        [previousAction.payload.id]: {
+          ...user,
+          followers: dedupeArray([
+            ...(user.followers ? user.followers : []),
+            ...payload.data.map(user => user.id)
+          ])
+        }
+      }
+    ),
+    ids: dedupeArray([...state.ids, ...payload.data.map(user => user.id)]),
+    isLoading: false
+  }
+}
 
 export default handleActions(
   {
