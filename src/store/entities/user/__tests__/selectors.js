@@ -1,5 +1,6 @@
 import {
   getIsLoading,
+  getError,
   getUserList,
   getUsersById,
   getOpenedUserId,
@@ -49,10 +50,13 @@ const byId = {
   [fol_id3]: fol3
 }
 
+const error = 'Erro text'
+
 const state = {
   user: {
     isLoading,
-    byId
+    byId,
+    error
   }
 }
 
@@ -71,6 +75,10 @@ const props = {
 describe('entities/user selectors', () => {
   it('getIsLoading', () => {
     expect(getIsLoading(state)).toEqual(isLoading)
+  })
+
+  it('getError', () => {
+    expect(getError(state)).toEqual(error)
   })
 
   it('getUsersById', () => {

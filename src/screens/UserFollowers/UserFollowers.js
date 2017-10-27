@@ -27,7 +27,7 @@ export default class UserFollowers extends PureComponent {
     ),
     isLoading: PropTypes.bool.isRequired,
     fetchUserFollowersPage: PropTypes.func.isRequired,
-    error: PropTypes.string.isRequired
+    error: PropTypes.string
   }
 
   state = {
@@ -41,15 +41,14 @@ export default class UserFollowers extends PureComponent {
     this.props.fetchUserFollowersPage(params.user)
   }
 
-  renderFollower = ({ item }) => (
-    <UserRow user={item} key={`user-${item.login}-${item.id}`} />
-  )
-
   handleEndReached = () => {
     this.props.fetchUserFollowersPage(
       getNestedValueSafe(this.props, 'navigation.state.params.user')
     )
   }
+
+  extractKey = item => `user-${item.login}-${item.id}`
+  renderFollower = ({ item }) => <UserRow user={item} />
 
   renderFooter = () => (
     <View style={styles.footerContainer}>
@@ -74,6 +73,7 @@ export default class UserFollowers extends PureComponent {
       <View style={styles.root}>
         <List
           data={followers}
+          keyExtractor={this.extractKey}
           renderItem={this.renderFollower}
           scrollEventThrottle={16}
           onScroll={Animated.event([
@@ -81,7 +81,7 @@ export default class UserFollowers extends PureComponent {
           ])}
           contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT }}
           ListFooterComponent={
-            this.props.isLoading && followers.length && this.renderFooter
+            followers.length && this.props.isLoading && this.renderFooter
           }
           onEndReached={this.handleEndReached}
           onEndReachedThreshold={0.2}

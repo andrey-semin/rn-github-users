@@ -1,7 +1,6 @@
 import { handleActions } from 'redux-actions'
 
-import arrayToObjectByKey from 'store/utils/arrayToObjectByKey'
-import dedupeArray from 'store/utils/dedupeArray'
+import { arrayToObjectByKey, dedupeArray } from 'store/utils'
 import {
   fetchUsers,
   fetchUsersSuccess,
@@ -47,15 +46,15 @@ const handleFetchFollowerSuccess = (
   state,
   { payload, meta: { previousAction } }
 ) => {
-  const user = state.byId[previousAction.payload.id]
+  const userId = previousAction.payload.id
+  const user = state.byId[userId]
   return {
     ...state,
-    byId: Object.assign(
-      {},
-      state.byId,
-      arrayToObjectByKey(payload.data, 'id'),
-      {
-        [previousAction.payload.id]: {
+    byId: {
+      ...state.byId,
+      ...arrayToObjectByKey(payload.data, 'id'),
+      ...{
+        [userId]: {
           ...user,
           followers: dedupeArray([
             ...(user.followers ? user.followers : []),
@@ -63,7 +62,7 @@ const handleFetchFollowerSuccess = (
           ])
         }
       }
-    ),
+    },
     ids: dedupeArray([...state.ids, ...payload.data.map(user => user.id)]),
     isLoading: false
   }

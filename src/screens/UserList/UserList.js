@@ -20,7 +20,7 @@ export default class UserList extends PureComponent {
       })
     ),
     fetchUsersPage: PropTypes.func.isRequired,
-    error: PropTypes.string.isRequired
+    error: PropTypes.string
   }
 
   componentDidMount() {
@@ -30,12 +30,12 @@ export default class UserList extends PureComponent {
   createUserRowPressHandler = user => () =>
     this.props.navigation.navigate('Followers', { user })
 
+  handleEndReached = () => this.props.fetchUsersPage()
+
+  extractKey = item => `user-${item.login}-${item.id}`
+
   renderUser = ({ item }) => (
-    <UserRow
-      user={item}
-      key={`user-${item.login}-${item.id}`}
-      onPress={this.createUserRowPressHandler(item)}
-    />
+    <UserRow user={item} onPress={this.createUserRowPressHandler(item)} />
   )
 
   renderFooter = () => (
@@ -43,8 +43,6 @@ export default class UserList extends PureComponent {
       <Spinner />
     </View>
   )
-
-  handleEndReached = () => this.props.fetchUsersPage()
 
   render() {
     const { isLoading, users, error } = this.props
@@ -61,6 +59,7 @@ export default class UserList extends PureComponent {
       <List
         data={users}
         renderItem={this.renderUser}
+        keyExtractor={this.extractKey}
         ListFooterComponent={
           this.props.isLoading && users.length && this.renderFooter
         }

@@ -16,7 +16,7 @@ export const fetchUsers = createAction(FETCH_USERS)
 export const fetchUsersSuccess = createAction(FETCH_USERS_SUCCESS)
 export const fetchUsersFail = createAction(FETCH_USERS_FAIL)
 
-export const fetchUsersList = (since = DEFAULT_SINCE_ID) => dispatch =>
+export const getUsersList = (since = DEFAULT_SINCE_ID) => dispatch =>
   dispatch(
     fetchUsers({
       request: {
@@ -31,7 +31,7 @@ export const fetchUsersList = (since = DEFAULT_SINCE_ID) => dispatch =>
 
 export const fetchUsersPage = () => (dispatch, getState) => {
   const lastFetchedId = getState().user.lastFetchedId
-  return dispatch(fetchUsersList(lastFetchedId))
+  return dispatch(getUsersList(lastFetchedId))
 }
 
 export const fetchUserFollowers = createAction(FETCH_FOLLOWERS)
