@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { dimensions } from 'styles'
+import { dimensions } from 'constants'
 
 export default StyleSheet.create({
   root: {

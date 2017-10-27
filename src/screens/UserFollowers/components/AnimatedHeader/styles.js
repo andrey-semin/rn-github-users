@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-import { colors, dimensions } from 'styles'
+import { colors, dimensions } from 'constants'
 
 export default StyleSheet.create({
   animatedContainer: {

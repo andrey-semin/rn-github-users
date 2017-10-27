@@ -3,15 +3,16 @@ import { StackNavigator } from 'react-navigation'
 import UserList from 'screens/UserList'
 import UserFollowers from 'screens/UserFollowers'
 import getNestedValueSafe from 'utils/getNestedValueSafe'
+import { scenes } from 'constants'
 
 export default StackNavigator({
-  Home: {
+  [scenes.home]: {
     screen: UserList,
     navigationOptions: {
       headerTitle: 'Home'
     }
   },
-  Followers: {
+  [scenes.followers]: {
     screen: UserFollowers,
     navigationOptions: ({ navigation }) => {
       const login = getNestedValueSafe(navigation, 'state.params.user.login')

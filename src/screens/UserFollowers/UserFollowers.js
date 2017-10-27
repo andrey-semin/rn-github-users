@@ -13,7 +13,7 @@ export default class UserFollowers extends PureComponent {
     navigation: PropTypes.shape({
       state: PropTypes.shape({
         params: PropTypes.shape({
-          login: PropTypes.string.isRequired
+          login: PropTypes.string
         }).isRequired
       }).isRequired
     }).isRequired,

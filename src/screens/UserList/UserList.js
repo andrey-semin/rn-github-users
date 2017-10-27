@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { View } from 'react-native'
 
 import { Spinner, List, UserRow, Error } from 'components'
+import { scenes } from 'constants'
 import styles from './styles'
 
 export default class UserList extends PureComponent {
@@ -28,7 +29,7 @@ export default class UserList extends PureComponent {
   }
 
   createUserRowPressHandler = user => () =>
-    this.props.navigation.navigate('Followers', { user })
+    this.props.navigation.navigate(scenes.followers, { user })
 
   handleEndReached = () => this.props.fetchUsersPage()
 
