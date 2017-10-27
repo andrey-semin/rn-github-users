@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { View } from 'react-native'
 
 import { Spinner, List, UserRow } from 'components'
+import styles from './styles'
 
 export default class UserList extends PureComponent {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired
     }).isRequired,
-    fetchUsersList: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     users: PropTypes.arrayOf(
       PropTypes.shape({
@@ -17,11 +18,12 @@ export default class UserList extends PureComponent {
         login: PropTypes.string.isRequired,
         html_url: PropTypes.string.isRequired
       })
-    )
+    ),
+    fetchUsersPage: PropTypes.func.isRequired
   }
 
   componentDidMount() {
-    this.props.fetchUsersList()
+    this.props.fetchUsersPage()
   }
 
   createUserRowPressHandler = user => () =>
@@ -35,13 +37,31 @@ export default class UserList extends PureComponent {
     />
   )
 
+  renderFooter = () => (
+    <View style={styles.footerContainer}>
+      <Spinner />
+    </View>
+  )
+
+  handleEndReached = () => this.props.fetchUsersPage()
+
   render() {
     const { isLoading, users } = this.props
 
-    if (isLoading) {
+    if (isLoading && !users.length) {
       return <Spinner />
     }
 
-    return <List data={users} renderItem={this.renderUser} />
+    return (
+      <List
+        data={users}
+        renderItem={this.renderUser}
+        ListFooterComponent={
+          this.props.isLoading && users.length && this.renderFooter
+        }
+        onEndReached={this.handleEndReached}
+        onEndReachedThreshold={0.2}
+      />
+    )
   }
 }

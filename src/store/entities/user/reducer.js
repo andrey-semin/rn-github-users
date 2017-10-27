@@ -15,7 +15,8 @@ const initialState = {
   byId: {},
   ids: [],
   isLoading: false,
-  error: null
+  error: null,
+  lastFetchedId: null
 }
 
 const handleFetchUsers = state => ({
@@ -24,12 +25,16 @@ const handleFetchUsers = state => ({
   error: null
 })
 
-const handleFetchUsersSuccess = (state, { payload }) => ({
-  ...state,
-  byId: Object.assign({}, state.byId, arrayToObjectByKey(payload.data, 'id')),
-  ids: [...state.ids, ...payload.data.map(user => user.id)],
-  isLoading: false
-})
+const handleFetchUsersSuccess = (state, { payload }) => {
+  const ids = [...state.ids, ...payload.data.map(user => user.id)]
+  return {
+    ...state,
+    byId: Object.assign({}, state.byId, arrayToObjectByKey(payload.data, 'id')),
+    ids,
+    isLoading: false,
+    lastFetchedId: ids[ids.length - 1]
+  }
+}
 
 const handleFetchUsersFail = state => ({
   ...state,

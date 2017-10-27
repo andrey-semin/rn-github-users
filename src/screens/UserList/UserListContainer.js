@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import { fetchUsersList } from 'store/entities/user/actions'
+import { fetchUsersPage } from 'store/entities/user/actions'
 import { getIsLoading, getUserList } from 'store/entities/user/selectors'
 import UserList from './UserList'
 
@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  fetchUsersList
+  fetchUsersPage
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList)

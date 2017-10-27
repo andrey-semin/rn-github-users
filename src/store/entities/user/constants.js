@@ -1,4 +1,6 @@
 export const ERROR_MESSAGE = 'Smth went wrong'
+export const USER_PER_PAGE = 30
+export const DEFAULT_SINCE_ID = 1
 
 export const FETCH_USERS = 'ghu:/FETCH_USERS'
 export const FETCH_USERS_SUCCESS = 'ghu:/FETCH_USERS_SUCCESS'
